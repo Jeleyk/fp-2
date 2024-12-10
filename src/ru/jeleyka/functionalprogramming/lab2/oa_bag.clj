@@ -14,7 +14,7 @@
             i
             (if (<= (second slot) 0)
               i
-              (if (and (= (compare (first slot) key) 0))
+              (if (= (compare (first slot) key) 0)
                 i
                 (recur (mod (+ i 1) size) (inc checked))))))))))
 
@@ -32,11 +32,10 @@
 
 (defn- insert-bag [table size key]
   (let [slot (find-insert-slot table size key)]
-    (if (not (nil? slot))
-      (if (nil? (get table slot))
-        (assoc table slot [key 1])
-        (let [[k count] (get table slot)]
-          (assoc table slot [k (inc count)]))))))
+    (if (nil? (get table slot))
+      (assoc table slot [key 1])
+      (let [[k count] (get table slot)]
+        (assoc table slot [k (inc count)])))))
 
 (defn- remove-bag [table size key]
   (let [slot (find-slot table size key)]
